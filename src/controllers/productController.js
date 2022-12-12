@@ -31,5 +31,41 @@ module.exports = {
       console.log(error)
       res.status(400).send(error)
     }
+  },
+  async update(req, res) {
+    try {
+      const { name, price, description, category } = req.body
+      const { id } = req.params
+      const product = await Product.findOne({ where: { id } })
+
+      if (!product) {
+        return 
+      }
+
+      product.name = name
+      product.price = price
+      product.description = description
+      product.category = category
+
+      await product.save()
+      res.status(200).json('Product update!!')
+    } catch (error) {
+      console.log(error)
+      res.status(400).send(error)
+    }
+  },
+  async delete(req, res) {
+    try {
+      const { id } = req.params
+      const product = await Product.destroy({ where: { id } })
+
+      if (!product) {
+        return res.status(400).json('Product not found!')
+      }
+      res.status(200).json('product removed.')
+    } catch (error) {
+      console.log(error)
+      res.status(400).send(error)
+    }
   }
 }
