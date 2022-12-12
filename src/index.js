@@ -3,6 +3,8 @@ const sequelize = require('./config/database')
 const productRoutes = require('./routes/product.routes')
 const app = express()
 
+sequelize.sync().then(() => console.log(`database connected succesfully 🏦`))
+
 app.use(express.json())
 
 app.use('/api/products', productRoutes)
